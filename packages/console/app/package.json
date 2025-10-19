@@ -1,5 +1,5 @@
 {
-  "name": "@opencode-ai/console-app",
+  "name": "@bygheartcoder/console-app",
   "type": "module",
   "scripts": {
     "typecheck": "tsgo --noEmit",

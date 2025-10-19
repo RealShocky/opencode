@@ -23,13 +23,13 @@ export function Header(props: { zen?: boolean }) {
   return (
     <section data-component="top">
       <A href="/">
-        <img data-slot="logo light" src={logoLight} alt="opencode logo light" />
-        <img data-slot="logo dark" src={logoDark} alt="opencode logo dark" />
+        <img data-slot="logo light" src={logoLight} alt="bygheartcoder logo light" />
+        <img data-slot="logo dark" src={logoDark} alt="bygheartcoder logo dark" />
       </A>
       <nav data-component="nav-desktop">
         <ul>
           <li>
-            <a href="https://github.com/sst/opencode" target="_blank">
+            <a href="https://github.com/sst/opencode" target="_blank" rel="noopener">
               GitHub <span>[{starCount()}]</span>
             </a>
           </li>
@@ -100,7 +100,7 @@ export function Header(props: { zen?: boolean }) {
                   <A href="/">Home</A>
                 </li>
                 <li>
-                  <a href="https://github.com/sst/opencode" target="_blank">
+                  <a href="https://github.com/sst/opencode" target="_blank" rel="noopener">
                     GitHub <span>[{starCount()}]</span>
                   </a>
                 </li>

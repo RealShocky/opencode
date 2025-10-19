@@ -1,0 +1,78 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build BygHeartCoder
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            platform: linux
+            arch: amd64
+          - os: ubuntu-latest
+            platform: linux
+            arch: arm64
+          - os: macos-latest
+            platform: darwin
+            arch: amd64
+          - os: macos-latest
+            platform: darwin
+            arch: arm64
+          - os: windows-latest
+            platform: windows
+            arch: amd64
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+
+      - name: Build binary
+        working-directory: packages/tui
+        run: |
+          if [ "${{ matrix.platform }}" = "windows" ]; then
+            GOOS=${{ matrix.platform }} GOARCH=${{ matrix.arch }} go build -o ../../bygheartcoder-${{ matrix.platform }}-${{ matrix.arch }}.exe ./cmd/opencode
+          else
+            GOOS=${{ matrix.platform }} GOARCH=${{ matrix.arch }} go build -o ../../bygheartcoder-${{ matrix.platform }}-${{ matrix.arch }} ./cmd/opencode
+          fi
+        shell: bash
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bygheartcoder-${{ matrix.platform }}-${{ matrix.arch }}
+          path: bygheartcoder-*
+
+  release:
+    name: Create Release
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: artifacts/*/bygheartcoder-*
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
