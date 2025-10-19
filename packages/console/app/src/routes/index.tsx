@@ -28,11 +28,31 @@ export default function Home() {
   }
 
   onMount(() => {
-    window.addEventListener('mousemove', handleMouseMove)
+    if (typeof window !== 'undefined') {
+      window.addEventListener('mousemove', handleMouseMove)
+      
+      // Install tab switching
+      const tabs = document.querySelectorAll('.install-tab')
+      const commands = document.querySelectorAll('.install-command')
+      
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const target = tab.getAttribute('data-tab')
+          
+          tabs.forEach(t => t.classList.remove('active'))
+          commands.forEach(c => c.classList.remove('active'))
+          
+          tab.classList.add('active')
+          document.querySelector(`[data-content="${target}"]`)?.classList.add('active')
+        })
+      })
+    }
   })
 
   onCleanup(() => {
-    window.removeEventListener('mousemove', handleMouseMove)
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('mousemove', handleMouseMove)
+    }
   })
 
   const features = [
@@ -84,11 +104,44 @@ export default function Home() {
                 Read Documentation
               </a>
             </div>
-            <div class="install-command">
-              <code>curl -fsSL https://vibrationrobotics.com/install | bash</code>
-              <button class="copy-btn" onClick={() => navigator.clipboard.writeText('curl -fsSL https://vibrationrobotics.com/install | bash')}>
-                Copy
-              </button>
+            <div class="install-section">
+              <div class="install-tabs">
+                <button class="install-tab active" data-tab="unix">Linux / macOS</button>
+                <button class="install-tab" data-tab="windows">Windows PowerShell</button>
+                <button class="install-tab" data-tab="gitbash">Git Bash / WSL</button>
+              </div>
+              
+              <div class="install-commands">
+                <div class="install-command active" data-content="unix">
+                  <div>
+                    <code>curl -fsSL https://vibrationrobotics.com/install | bash</code>
+                    <button class="copy-btn" onClick={() => navigator.clipboard.writeText('curl -fsSL https://vibrationrobotics.com/install | bash')}>
+                      Copy
+                    </button>
+                  </div>
+                </div>
+                
+                <div class="install-command" data-content="windows">
+                  <div>
+                    <code>irm https://vibrationrobotics.com/install.ps1 | iex</code>
+                    <button class="copy-btn" onClick={() => navigator.clipboard.writeText('irm https://vibrationrobotics.com/install.ps1 | iex')}>
+                      Copy
+                    </button>
+                  </div>
+                  <p style={{ "font-size": "0.85rem", color: "#94a3b8", "margin-top": "0.5rem" }}>
+                    Or download directly from <a href="https://github.com/RealShocky/opencode/releases/latest" style={{ color: "#06b6d4" }}>GitHub Releases</a>
+                  </p>
+                </div>
+                
+                <div class="install-command" data-content="gitbash">
+                  <div>
+                    <code>curl -fsSL https://vibrationrobotics.com/install | bash</code>
+                    <button class="copy-btn" onClick={() => navigator.clipboard.writeText('curl -fsSL https://vibrationrobotics.com/install | bash')}>
+                      Copy
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
