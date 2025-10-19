@@ -36,6 +36,9 @@ func main() {
 	flag.Parse()
 
 	url := os.Getenv("OPENCODE_SERVER")
+	if url == "" {
+		url = "https://app.vibrationrobotics.com" // Default to hosted instance
+	}
 
 	stat, err := os.Stdin.Stat()
 	if err != nil {

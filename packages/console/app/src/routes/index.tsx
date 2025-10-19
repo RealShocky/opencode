@@ -123,13 +123,22 @@ export default function Home() {
                 
                 <div class="install-command" data-content="windows">
                   <div>
-                    <code>irm https://vibrationrobotics.com/install.ps1 | iex</code>
-                    <button class="copy-btn" onClick={() => navigator.clipboard.writeText('irm https://vibrationrobotics.com/install.ps1 | iex')}>
+                    <code>[Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12;irm http://vibrationrobotics.com/install.ps1|iex</code>
+                    <button class="copy-btn" onClick={() => navigator.clipboard.writeText('[Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12;irm http://vibrationrobotics.com/install.ps1|iex')}>
+                      Copy
+                    </button>
+                  </div>
+                  <p style={{ "font-size": "0.85rem", color: "#94a3b8", "margin-top": "0.5rem", "margin-bottom": "0.75rem" }}>
+                    <strong>PowerShell 5.1+</strong> (Windows PowerShell default)
+                  </p>
+                  <div style={{ "border-top": "1px solid rgba(6, 182, 212, 0.2)", "padding-top": "0.75rem" }}>
+                    <code>irm https://vibrationrobotics.com/install.ps1 -SkipCertificateCheck|iex</code>
+                    <button class="copy-btn" onClick={() => navigator.clipboard.writeText('irm https://vibrationrobotics.com/install.ps1 -SkipCertificateCheck|iex')}>
                       Copy
                     </button>
                   </div>
                   <p style={{ "font-size": "0.85rem", color: "#94a3b8", "margin-top": "0.5rem" }}>
-                    Or download directly from <a href="https://github.com/RealShocky/opencode/releases/latest" style={{ color: "#06b6d4" }}>GitHub Releases</a>
+                    <strong>PowerShell 7+</strong> • Or <a href="https://github.com/RealShocky/opencode/releases/latest" style={{ color: "#06b6d4" }}>download manually</a>
                   </p>
                 </div>
                 
