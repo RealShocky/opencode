@@ -37,7 +37,7 @@ func main() {
 
 	url := os.Getenv("OPENCODE_SERVER")
 	if url == "" {
-		url = "http://app.vibrationrobotics.com" // Default to hosted instance (HTTP until SSL cert configured)
+		url = "http://vibrationrobotics.com:3002" // Default to hosted instance on port 3002
 	}
 
 	stat, err := os.Stdin.Stat()
